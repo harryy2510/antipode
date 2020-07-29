@@ -1,17 +1,22 @@
 import { CssBaseline } from '@material-ui/core'
-import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
+import { LoadScript } from '@react-google-maps/api'
 import React from 'react'
+import Main from './components/Main'
+import Preloader from './components/Preloader'
+import theme from './utils/theme'
 
-function App() {
+const App: React.FC = () => {
     return (
-        <ThemeProvider
-            theme={createMuiTheme({ typography: { fontFamily: '"Poppins", sans-serif' } })}
-        >
-            <CssBaseline/>
-            <div>
-                Hello World!
-            </div>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <LoadScript
+                libraries={['places']}
+                loadingElement={<Preloader />}
+                googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API}
+            >
+                <Main />
+            </LoadScript>
         </ThemeProvider>
     )
 }
