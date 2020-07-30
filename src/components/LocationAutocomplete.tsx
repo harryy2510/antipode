@@ -11,6 +11,7 @@ import parse from 'autosuggest-highlight/parse'
 import { keyBy } from 'lodash-es'
 import React from 'react'
 import { Place } from '../types'
+import useMobileView from '../utils/useMobileView'
 
 const useStyles = makeStyles(({ palette: { text, divider }, spacing }: Theme) => ({
     icon: {
@@ -44,6 +45,7 @@ interface Props extends Omit<AutocompleteProps<Place, true, false, false>, Remov
 
 const LocationAutocomplete: React.FC<Props> = ({ value, onChange, ...props }) => {
     const classes = useStyles()
+    const mobileView = useMobileView()
 
     const [options, setOptions] = React.useState<Place[]>([])
     const [recentSearchMap, setRecentSearchMap] = useStore<Record<string, Place>>(
@@ -144,10 +146,11 @@ const LocationAutocomplete: React.FC<Props> = ({ value, onChange, ...props }) =>
                     variant="outlined"
                     fullWidth
                     className={classes.input}
+                    size={mobileView ? 'small' : 'medium'}
                 />
             )
         },
-        [classes, value]
+        [classes, value, mobileView]
     )
 
     const autocompleteOptions = React.useMemo(() => {

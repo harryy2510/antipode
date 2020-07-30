@@ -1,8 +1,9 @@
-import { Container, Fade, Paper, Theme, Typography } from '@material-ui/core'
+import { Container, Fade, Grid, Paper, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import locationUrl from '../assets/location.png'
 import { Place, PlaceWithLatLng } from '../types'
+import useMobileView from '../utils/useMobileView'
 import LocationAutocomplete from './LocationAutocomplete'
 import Map from './Map'
 
@@ -11,7 +12,8 @@ const useStyles = makeStyles(
         spacing,
         typography: { fontWeightMedium },
         palette: { action },
-        shape: { borderRadius }
+        shape: { borderRadius },
+        breakpoints: { down }
     }: Theme) => ({
         root: {
             padding: spacing(8),
@@ -27,34 +29,47 @@ const useStyles = makeStyles(
             backgroundPosition: 'bottom center',
             backgroundSize: 360,
             backgroundRepeat: 'no-repeat',
-            textAlign: 'center'
+            textAlign: 'center',
+            overflow: 'auto',
+
+            [down('sm')]: {
+                padding: spacing(6, 2)
+            }
         },
         heading: {
-            fontWeight: fontWeightMedium
+            fontWeight: fontWeightMedium,
+            [down('sm')]: {
+                fontSize: '1.75rem'
+            }
         },
-        cardActions: {
-            justifyContent: 'center',
-            padding: spacing(4)
+        subHeading: {
+            [down('sm')]: {
+                fontSize: '1.125rem'
+            }
         },
         autoComplete: {
             marginBottom: spacing(2)
         },
         section: {
-            marginBottom: spacing(8)
+            marginBottom: spacing(8),
+            [down('sm')]: {
+                marginBottom: spacing(6)
+            }
         },
         mapContainer: {
             width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
+            margin: 0
         },
         mapWrapper: {
-            margin: spacing(4),
-            flex: 1,
             height: 480,
-            boxShadow: `2px 2px 10px ${action.disabled}`,
-            borderRadius,
-            overflow: 'hidden'
+            '& > div': {
+                boxShadow: `2px 2px 10px ${action.disabled}`,
+                borderRadius,
+                overflow: 'hidden'
+            },
+            [down('md')]: {
+                height: 360
+            }
         }
     })
 )
@@ -115,7 +130,7 @@ const Main: React.FC = () => {
                 <Typography className={classes.heading} variant="h4">
                     Antipode finder
                 </Typography>
-                <Typography color="textSecondary" variant="h5">
+                <Typography className={classes.subHeading} color="textSecondary" variant="h5">
                     Search for the opposite side of the world
                 </Typography>
             </div>
@@ -129,14 +144,14 @@ const Main: React.FC = () => {
                 </div>
             </Container>
             <Fade mountOnEnter in={placesWithLatLng.length > 0}>
-                <div className={classes.mapContainer}>
-                    <Paper className={classes.mapWrapper}>
+                <Grid container spacing={8} className={classes.mapContainer}>
+                    <Grid item xs={12} md={6} className={classes.mapWrapper}>
                         <Map places={placesWithLatLng} />
-                    </Paper>
-                    <Paper className={classes.mapWrapper}>
+                    </Grid>
+                    <Grid item xs={12} md={6} className={classes.mapWrapper}>
                         <Map places={placesWithLatLng} antipode />
-                    </Paper>
-                </div>
+                    </Grid>
+                </Grid>
             </Fade>
         </div>
     )
