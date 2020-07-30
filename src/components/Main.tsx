@@ -1,9 +1,8 @@
-import { Container, Fade, Grid, Paper, Theme, Typography } from '@material-ui/core'
+import { Container, Fade, Grid, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import locationUrl from '../assets/location.png'
 import { Place, PlaceWithLatLng } from '../types'
-import useMobileView from '../utils/useMobileView'
 import LocationAutocomplete from './LocationAutocomplete'
 import Map from './Map'
 
