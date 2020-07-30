@@ -167,7 +167,7 @@ const LocationAutocomplete: React.FC<Props> = ({ value, onChange, ...props }) =>
             forcePopupIcon={false}
             fullWidth
             noOptionsText={null}
-            getOptionLabel={(option) => option.description}
+            getOptionLabel={(option) => option.structured_formatting.main_text}
             filterOptions={(x) => x}
             options={autocompleteOptions}
             autoComplete
